@@ -26,15 +26,15 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-  // sub_bumber_ = n_.subscribe(...);
-  // pub_vel_ = n_.advertise<...>(...)
+  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
+  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
 
 void
 BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  // pressed_ = (...);
-  //  ...
+  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
+  ROS_INFO("Data: [%d]", msg->PRESSED);
 }
 
 void
@@ -45,10 +45,10 @@ BumpGo::step()
   switch (state_)
   {
     case GOING_FORWARD:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
+      cmd.linear.x = 0.2;
+      cmd.angular.z = 0.0;
 
-      if (pressed_)ç
+      if (pressed_)
       {
         press_ts_ = ros::Time::now();
         state_ = GOING_BACK;
@@ -57,8 +57,8 @@ BumpGo::step()
 
       break;
     case GOING_BACK:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
+      cmd.linear.x = -0.1;
+      cmd.angular.z = 0.0;
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
       {
@@ -69,8 +69,8 @@ BumpGo::step()
 
       break;
     case TURNING:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
+      cmd.linear.x = 0.0;
+      cmd.angular.z = 0.5;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -80,7 +80,7 @@ BumpGo::step()
       break;
     }
 
-    // pub_vel_.publish(...);
+    pub_vel_.publish(cmd);
 }
 
 }  // namespace fsm_bump_go
