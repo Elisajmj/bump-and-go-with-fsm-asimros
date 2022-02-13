@@ -86,7 +86,7 @@ BaseBump::step()
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING LEFT -> GOING_FORWARD");
       }
       break;
     case TURNING_RIGHT:
@@ -96,7 +96,7 @@ BaseBump::step()
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING RIGHT -> GOING_FORWARD");
       }
       break;
     }
