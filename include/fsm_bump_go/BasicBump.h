@@ -1,4 +1,5 @@
 // Copyright 2022 Intelligent Robotics Lab
+
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGO_H
-#define FSM_BUMP_GO_BUMPGO_H
+#ifndef FSM_BUMP_GO_BASICBUMP_H
+#define FSM_BUMP_GO_BASICBUMP_H
 
 #include "ros/ros.h"
 
@@ -23,10 +24,10 @@
 namespace fsm_bump_go
 {
 
-class BumpGo
+class BasicBump
 {
 public:
-  BumpGo();
+  BasicBump();
 
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step();
@@ -54,4 +55,4 @@ private:
 
 }  // namespace fsm_bump_go
 
-#endif  // FSM_BUMP_GO_BUMPGO_H
+#endif  // FSM_BUMP_GO_BASICBUMP_H
