@@ -46,7 +46,7 @@ private:
   int state_;
 
   bool pressed_;
-  bool bumper_;
+  int bumper_;
 
   ros::Time press_ts_;
   ros::Time turn_ts_;
