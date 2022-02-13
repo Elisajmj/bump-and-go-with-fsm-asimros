@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BumpGo.h"
+#include "fsm_bump_go/BasicBump.h"
 
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
@@ -22,23 +22,23 @@
 namespace fsm_bump_go
 {
 
-BumpGo::BumpGo()
+BasicBump::BasicBump()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
+  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BasicBump::bumperCallback, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
 
 void
-BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+BasicBump::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
   ROS_INFO("Data: [%d]", msg->PRESSED);
 }
 
 void
-BumpGo::step()
+BasicBump::step()
 {
   geometry_msgs::Twist cmd;
 
