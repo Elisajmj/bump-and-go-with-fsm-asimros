@@ -21,6 +21,7 @@ include_directories(
 )
 
 add_library(${PROJECT_NAME}
+  src/fsm_bump_go/Base.cpp
   src/fsm_bump_go/BasicBump.cpp
   src/fsm_bump_go/AdvancedBump.cpp
 )
@@ -37,6 +38,7 @@ roslint_cpp(
  include/fsm_bump_go/BasicBump.h
  src/advanced_node.cpp
  src/fsm_bump_go/AdvancedBump.cpp
+ src/fsm_bump_go/Base.cpp
  include/fsm_bump_go/Base.h
  include/fsm_bump_go/AdvancedBump.h
 )

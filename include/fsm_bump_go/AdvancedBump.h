@@ -31,10 +31,6 @@ public:
   AdvancedBump();
 
   void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
-
-private:
-  int bumper_;
 
 };
 
