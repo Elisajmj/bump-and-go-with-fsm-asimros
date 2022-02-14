@@ -29,7 +29,7 @@ class Base
 public:
   Base() {};
 
-  virtual void step() = 0;
+  void step();
 
 protected:
   ros::NodeHandle n_;
@@ -42,7 +42,12 @@ protected:
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
 
+  static const int LEFT = 0;
+  static const int CENTER = 1;
+  static const int RIGHT = 2;
+
   int state_;
+  int side_;
 
   bool detected_;
 

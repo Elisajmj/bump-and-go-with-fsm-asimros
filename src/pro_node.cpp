@@ -1,5 +1,4 @@
 // Copyright 2022 Intelligent Robotics Lab
-
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,27 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_ADVANCEDBUMP_H
-#define FSM_BUMP_GO_ADVANCEDBUMP_H
+#include "fsm_bump_go/ProBump.h"
 
 #include "ros/ros.h"
 
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
-#include "fsm_bump_go/Base.h"
-
-namespace fsm_bump_go
+int main(int argc, char **argv)
 {
+  ros::init(argc, argv, "pro_node");
 
-class AdvancedBump : public Base
-{
-public:
-  AdvancedBump();
+  fsm_bump_go::ProBump pro_bumper;
 
-  void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  ros::Rate loop_rate(20);
+  while (ros::ok())
+  {
+    pro_bumper.step();
 
-};
+    ros::spinOnce();
+    loop_rate.sleep();
+  }
 
-}  // namespace fsm_bump_go
-
-#endif  // FSM_BUMP_GO_ADVANCEDBUMP_H
+  return 0;
+}

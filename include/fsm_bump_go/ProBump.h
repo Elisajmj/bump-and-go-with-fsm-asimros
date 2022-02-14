@@ -13,27 +13,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_ADVANCEDBUMP_H
-#define FSM_BUMP_GO_ADVANCEDBUMP_H
+#ifndef FSM_BUMP_GO_PROBUMP_H
+#define FSM_BUMP_GO_PROBUMP_H
 
 #include "ros/ros.h"
 
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/Base.h"
+#include "sensor_msgs/LaserScan.h"
 
 namespace fsm_bump_go
 {
 
-class AdvancedBump : public Base
+class ProBump : public Base
 {
 public:
-  AdvancedBump();
+  ProBump();
 
-  void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
+  void step();
+
+private:
 
 };
 
 }  // namespace fsm_bump_go
 
-#endif  // FSM_BUMP_GO_ADVANCEDBUMP_H
+#endif  // FSM_BUMP_GO_PROBUMP_H

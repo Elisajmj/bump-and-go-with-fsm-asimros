@@ -23,10 +23,10 @@ namespace fsm_bump_go
 {
 
 AdvancedBump::AdvancedBump()
-: bumper_(0)
 {
   state_ = GOING_FORWARD;
   detected_ = false;
+  side_ = 0;
   sub_ = n_.subscribe("/mobile_base/events/bumper", 1, &AdvancedBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
@@ -35,73 +35,8 @@ void
 AdvancedBump::detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   detected_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
-  bumper_ = msg->bumper;
+  side_ = msg->bumper;
   ROS_INFO("Data: [%d]", msg->bumper);
-}
-
-void
-AdvancedBump::step()
-{
-  geometry_msgs::Twist cmd;
-
-  switch (state_)
-  {
-    case GOING_FORWARD:
-      cmd.linear.x = 0.2;
-      cmd.angular.z = 0.0;
-
-      if (detected_)
-      {
-        detected_ts_ = ros::Time::now();
-        state_ = GOING_BACK;
-        ROS_INFO("GOING_FORWARD -> GOING_BACK");
-      }
-
-      break;
-    case GOING_BACK:
-      cmd.linear.x = -0.1;
-      cmd.angular.z = 0.0;
-
-      if ((ros::Time::now() - detected_ts_).toSec() > BACKING_TIME )
-      {
-        turn_ts_ = ros::Time::now();
-        if (bumper_ == kobuki_msgs::BumperEvent::LEFT)
-        {
-          state_ = TURNING_RIGHT;
-          ROS_INFO("GOING_BACK -> TURNING_RIGHT");
-        }
-        else
-        {
-          state_ = TURNING_LEFT;
-          ROS_INFO("GOING_BACK -> TURNING_LEFT");
-        }
-
-      }
-
-      break;
-    case TURNING_LEFT:
-      cmd.linear.x = 0.0;
-      cmd.angular.z = 0.5;
-
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
-      {
-        state_ = GOING_FORWARD;
-        ROS_INFO("TURNING LEFT -> GOING_FORWARD");
-      }
-      break;
-    case TURNING_RIGHT:
-      cmd.linear.x = 0.0;
-      cmd.angular.z = -0.5;
-
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
-      {
-        state_ = GOING_FORWARD;
-        ROS_INFO("TURNING RIGHT -> GOING_FORWARD");
-      }
-      break;
-    }
-
-    pub_vel_.publish(cmd);
 }
 
 }  // namespace fsm_bump_go
