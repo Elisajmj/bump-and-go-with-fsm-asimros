@@ -22,20 +22,21 @@ include_directories(
 
 add_library(${PROJECT_NAME}
   src/fsm_bump_go/BasicBump.cpp
-  src/fsm_bump_go/BaseBump.cpp
+  src/fsm_bump_go/AdvancedBump.cpp
 )
 
 add_executable(basic_node src/basic_node.cpp)
-add_executable(smart_node src/smart_node.cpp)
+add_executable(advanced_node src/advanced_node.cpp)
 
 target_link_libraries(basic_node ${catkin_LIBRARIES} ${PROJECT_NAME})
-target_link_libraries(smart_node ${catkin_LIBRARIES} ${PROJECT_NAME})
+target_link_libraries(advanced_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 
 roslint_cpp(
  src/basic_node.cpp
  src/fsm_bump_go/BasicBump.cpp
  include/fsm_bump_go/BasicBump.h
- src/smart_node.cpp
- src/fsm_bump_go/BaseBump.cpp
- include/fsm_bump_go/BaseBump.h
+ src/advanced_node.cpp
+ src/fsm_bump_go/AdvancedBump.cpp
+ include/fsm_bump_go/Base.h
+ include/fsm_bump_go/AdvancedBump.h
 )

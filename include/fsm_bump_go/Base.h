@@ -27,7 +27,7 @@ namespace fsm_bump_go
 class Base
 {
 public:
-  Base() = 0;
+  Base();
 
   virtual void detectionCallBack() = 0;
   virtual void step() = 0;

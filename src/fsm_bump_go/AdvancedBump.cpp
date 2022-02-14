@@ -22,11 +22,11 @@
 namespace fsm_bump_go
 {
 
-AvancedBump::BaseBump()
-: state_(GOING_FORWARD),
-  detected_(false),
-  bumper_(0)
+AdvancedBump::AdvancedBump()
+: bumper_(0)
 {
+  state_ = GOING_FORWARD;
+  detected_ = false;
   sub_ = n_.subscribe("/mobile_base/events/bumper", 1, &AdvancedBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
@@ -50,7 +50,7 @@ AdvancedBump::step()
       cmd.linear.x = 0.2;
       cmd.angular.z = 0.0;
 
-      if (pressed_)
+      if (detected_)
       {
         detected_ts_ = ros::Time::now();
         state_ = GOING_BACK;
