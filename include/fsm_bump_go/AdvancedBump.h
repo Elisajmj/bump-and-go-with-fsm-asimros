@@ -30,8 +30,8 @@ class AdvancedBump : public Base
 public:
   AdvancedBump();
 
-  virtual void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  virtual void step();
+  void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  void step();
 
 private:
   int bumper_;
