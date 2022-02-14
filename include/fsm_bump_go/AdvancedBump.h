@@ -33,6 +33,9 @@ public:
   virtual void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   virtual void step();
 
+private:
+  int bumper_;
+
 };
 
 }  // namespace fsm_bump_go
