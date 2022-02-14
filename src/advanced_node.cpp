@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BaseBump.h"
+#include "fsm_bump_go/AdvancedBump.h"
 
 #include "ros/ros.h"
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "smart_node");
+  ros::init(argc, argv, "advanced_node");
 
-  fsm_bump_go::BaseBump smart_bumper;
+  fsm_bump_go::AdvancedBump advanced_bumper;
 
   ros::Rate loop_rate(20);
   while (ros::ok())
   {
-    smart_bumper.step();
+    advanced_bumper.step();
 
     ros::spinOnce();
     loop_rate.sleep();

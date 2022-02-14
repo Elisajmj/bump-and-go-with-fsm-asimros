@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BaseBump.h"
+#include "fsm_bump_go/AdvancedBump.h"
 
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
@@ -22,25 +22,25 @@
 namespace fsm_bump_go
 {
 
-BaseBump::BaseBump()
-: state_(GOING_FORWARD),
-  pressed_(false),
-  bumper_(0)
+AdvancedBump::AdvancedBump()
+: bumper_(0)
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BaseBump::detectionCallBack, this);
+  state_ = GOING_FORWARD;
+  detected_ = false;
+  sub_ = n_.subscribe("/mobile_base/events/bumper", 1, &AdvancedBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
 
 void
-BaseBump::detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+AdvancedBump::detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
+  detected_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
   bumper_ = msg->bumper;
   ROS_INFO("Data: [%d]", msg->bumper);
 }
 
 void
-BaseBump::step()
+AdvancedBump::step()
 {
   geometry_msgs::Twist cmd;
 
@@ -50,9 +50,9 @@ BaseBump::step()
       cmd.linear.x = 0.2;
       cmd.angular.z = 0.0;
 
-      if (pressed_)
+      if (detected_)
       {
-        press_ts_ = ros::Time::now();
+        detected_ts_ = ros::Time::now();
         state_ = GOING_BACK;
         ROS_INFO("GOING_FORWARD -> GOING_BACK");
       }
@@ -62,7 +62,7 @@ BaseBump::step()
       cmd.linear.x = -0.1;
       cmd.angular.z = 0.0;
 
-      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - detected_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
         if (bumper_ == kobuki_msgs::BumperEvent::LEFT)
