@@ -28,7 +28,6 @@ class ProBump : public Base
 {
 public:
   ProBump();
-
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 };

@@ -35,7 +35,6 @@ ProBump::ProBump()
 void
 ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-  float posicion_0 = 0 - (msg->range_min / msg->angle_increment);
   if(msg->ranges[0] <= 0.5)
   {
     detected_ = true;
@@ -44,9 +43,8 @@ ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
       detected_ = false;
   }
-  side_ = 1; // por ahora solo trabaja asumiendo que va de frente 0 1 2
+  side_ = LEFT; // por ahora solo trabaja asumiendo que va de frente 0 1 2
   ROS_INFO("Data: [%f]", msg->ranges[0]);
 }
-
 
 }  // namespace fsm_bump_go
