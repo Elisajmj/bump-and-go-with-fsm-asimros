@@ -32,6 +32,26 @@ ProBump::ProBump()
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
 
+//pending stile review
+int
+ProBump::which_side(float sensor_msgs::LaserScan::ranges[])
+{
+  //en realidad -pi/2 y pi/2
+  float derecha = ((sensor_msgs::LaserScan::range_min/2)-sensor_msgs::LaserScan::range_min)/sensor_msgs::LaserScan::angle_increment;
+  //podría ser izquierda = -derecha;
+  float izquierda = ((sensor_msgs::LaserScan::range_max/2)-sensor_msgs::LaserScan::range_min)/sensor_msgs::LaserScan::angle_increment;;
+
+  float centro_drch = - 0,523599;
+  //podría ser centro_izqd = -centro_drch;
+  float centro_izqd = 0,523599;
+
+  //si =< 0.5 entre sensor_msgs::LaserScan::ranges[izquierda] y sensor_msgs::LaserScan::ranges[centro_izqd]
+  //girar dcha
+  //si =< 0.5 en cualquiera de los otros
+  //girar izquierda
+
+}
+
 void
 ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
@@ -43,5 +63,6 @@ ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
   side_ = 1; // por ahora solo trabaja asumiendo que va de frente 0 1 2
   ROS_INFO("Data: [%d]", msg->bumper);
 }
+
 
 }  // namespace fsm_bump_go

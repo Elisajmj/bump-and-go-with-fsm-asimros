@@ -29,6 +29,7 @@ class ProBump : public Base
 public:
   ProBump();
 
+  int which_side(float sensor_msgs::LaserScan::ranges[]);
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 };
