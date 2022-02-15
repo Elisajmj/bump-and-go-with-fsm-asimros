@@ -32,10 +32,10 @@ public:
   int detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 private:
-  int dist_ = 0.5;
-  int index_ = 0;
+  int dist_ = 1;
+  int index_;
   int indexlim_;
-  float anglelim_ = 0.328;
+  float anglelim_ = 0.16;
 
 };
 
