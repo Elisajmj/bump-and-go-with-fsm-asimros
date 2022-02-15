@@ -18,8 +18,6 @@
 
 #include "ros/ros.h"
 
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/Base.h"
 #include "sensor_msgs/LaserScan.h"
 
@@ -30,11 +28,14 @@ class ProBump : public Base
 {
 public:
   ProBump();
-
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
-  void step();
+  int detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 private:
+  int dist_ = 1;
+  int index_;
+  int indexlim_;
+  float anglelim_ = 0.16;
 
 };
 

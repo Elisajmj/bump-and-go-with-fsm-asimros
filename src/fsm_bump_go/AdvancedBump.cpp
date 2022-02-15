@@ -26,7 +26,7 @@ AdvancedBump::AdvancedBump()
 {
   state_ = GOING_FORWARD;
   detected_ = false;
-  side_ = 0;
+  side_ = LEFT;
   sub_ = n_.subscribe("/mobile_base/events/bumper", 1, &AdvancedBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
