@@ -27,7 +27,7 @@ ProBump::ProBump()
 {
   state_ = GOING_FORWARD;
   detected_ = false;
-  side_ = 0;
+  side_ = LEFT;
   sub_ = n_.subscribe("/scan_filtered", 1, &ProBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
