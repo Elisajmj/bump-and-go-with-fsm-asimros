@@ -29,6 +29,13 @@ class ProBump : public Base
 public:
   ProBump();
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
+  int detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg);
+
+private:
+  int dist_ = 0.5;
+  int index_ = 0;
+  int indexlim_;
+  float anglelim_ = 0.328;
 
 };
 
