@@ -18,8 +18,6 @@
 
 #include "ros/ros.h"
 
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/Base.h"
 #include "sensor_msgs/LaserScan.h"
 
@@ -32,9 +30,6 @@ public:
   ProBump();
 
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
-  void step();
-
-private:
 
 };
 
