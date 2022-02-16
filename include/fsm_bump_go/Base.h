@@ -27,7 +27,7 @@ namespace fsm_bump_go
 class Base
 {
 public:
-  Base() {}
+  Base();
 
   void step();
 
@@ -48,6 +48,8 @@ protected:
 
   int state_;
   int side_;
+  float linspeed_;
+  float angspeed_;
 
   bool detected_;
 

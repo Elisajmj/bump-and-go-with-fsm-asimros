@@ -23,9 +23,12 @@ namespace fsm_bump_go
 {
 
 BasicBump::BasicBump()
-: state_(GOING_FORWARD),
+: n_("~"),
+  state_(GOING_FORWARD),
   pressed_(false)
 {
+  linspeed_ = n_.param("linspeed", 1.0);
+  angspeed_ = n_.param("angspeed", 0.5);
   sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BasicBump::bumperCallback, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
@@ -45,7 +48,9 @@ BasicBump::step()
   switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.2;
+      ROS_INFO("lin: [%lf]", linspeed_);
+      ROS_INFO("ang: [%lf]", linspeed_);
+      cmd.linear.x = linspeed_;
       cmd.angular.z = 0.0;
 
       if (pressed_)
@@ -57,7 +62,7 @@ BasicBump::step()
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = -linspeed_;
       cmd.angular.z = 0.0;
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
@@ -70,7 +75,7 @@ BasicBump::step()
       break;
     case TURNING:
       cmd.linear.x = 0.0;
-      cmd.angular.z = 0.5;
+      cmd.angular.z = angspeed_;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {

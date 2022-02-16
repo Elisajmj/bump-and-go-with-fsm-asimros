@@ -22,6 +22,12 @@
 namespace fsm_bump_go
 {
 
+Base::Base(): n_("~")
+{
+  linspeed_ = n_.param("linspeed", 1.0);
+  angspeed_ = n_.param("angspeed", 0.5);
+}
+
 void
 Base::step()
 {
@@ -35,7 +41,7 @@ Base::step()
   switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.2;
+      cmd.linear.x = linspeed_;
       cmd.angular.z = 0.0;
 
       if (detected_)
@@ -47,7 +53,7 @@ Base::step()
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = -linspeed_;
       cmd.angular.z = 0.0;
 
       if ((ros::Time::now() - detected_ts_).toSec() > BACKING_TIME )
@@ -68,7 +74,7 @@ Base::step()
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0.0;
-      cmd.angular.z = 0.5;
+      cmd.angular.z = angspeed_;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -78,7 +84,7 @@ Base::step()
       break;
     case TURNING_RIGHT:
       cmd.linear.x = 0.0;
-      cmd.angular.z = -0.5;
+      cmd.angular.z = -angspeed_;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {

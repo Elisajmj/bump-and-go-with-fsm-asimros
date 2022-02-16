@@ -23,6 +23,7 @@ namespace fsm_bump_go
 {
 
 AdvancedBump::AdvancedBump()
+: Base()
 {
   state_ = GOING_FORWARD;
   detected_ = false;
