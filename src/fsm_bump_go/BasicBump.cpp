@@ -48,8 +48,6 @@ BasicBump::step()
   switch (state_)
   {
     case GOING_FORWARD:
-      ROS_INFO("lin: [%lf]", linspeed_);
-      ROS_INFO("ang: [%lf]", linspeed_);
       cmd.linear.x = linspeed_;
       cmd.angular.z = 0.0;
 
