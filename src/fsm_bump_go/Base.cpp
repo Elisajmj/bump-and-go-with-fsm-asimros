@@ -22,7 +22,8 @@
 namespace fsm_bump_go
 {
 
-Base::Base(): n_("~")
+Base::Base()
+: n_("~")
 {
   linspeed_ = n_.param("linspeed", 1.0);
   angspeed_ = n_.param("angspeed", 0.5);
