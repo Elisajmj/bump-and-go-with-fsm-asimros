@@ -1,0 +1,6 @@
+<launch>
+
+	<node pkg="fsm_bump_go" type="basic_node" name="basic_node" output="screen">
+			<rosparam command="load" file="$(find fsm_bump_go)/config/config_1.yaml"/>
+	</node>
+</launch>

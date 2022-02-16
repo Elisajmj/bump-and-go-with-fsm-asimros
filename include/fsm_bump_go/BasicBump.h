@@ -43,6 +43,8 @@ private:
   static constexpr double BACKING_TIME = 3.0;
 
   int state_;
+  float linspeed_;
+  float angspeed_;
 
   bool pressed_;
 

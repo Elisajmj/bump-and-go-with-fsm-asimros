@@ -23,6 +23,7 @@ namespace fsm_bump_go
 {
 
 ProBump::ProBump()
+: Base()
 {
   state_ = GOING_FORWARD;
   detected_ = false;
