@@ -42,6 +42,11 @@ BasicBump::step()
 {
   geometry_msgs::Twist cmd;
 
+  cmd.linear.y = 0.0;
+  cmd.linear.z = 0.0;
+  cmd.angular.x = 0.0;
+  cmd.angular.y = 0.0;
+
   switch (state_)
   {
     case GOING_FORWARD:

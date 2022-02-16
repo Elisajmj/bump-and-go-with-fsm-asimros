@@ -14,7 +14,6 @@
 
 #include "fsm_bump_go/ProBump.h"
 
-#include "kobuki_msgs/BumperEvent.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
 
@@ -36,8 +35,8 @@ void
 ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   // Returns array index of an inrange detection
-  indexlim_ = anglelim_ / msg->angle_increment;
   index_ = detectInRange(msg);
+  indexlim_ = anglelim_ / msg->angle_increment;
 
   if (index_ < indexlim_ && index_ >= 0)
   {
@@ -46,7 +45,6 @@ ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
   }
   else if (index_ > static_cast<int>(msg->ranges.size() - indexlim_))
   {
-    ROS_INFO("he entrado girar derecha: [%s]", "he entrado");
     detected_ = true;
     side_ = LEFT;
   }
