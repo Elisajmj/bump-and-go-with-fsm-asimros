@@ -37,13 +37,14 @@ target_link_libraries(pro_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 
 roslint_cpp(
  src/basic_node.cpp
- src/fsm_bump_go/BasicBump.cpp
  include/fsm_bump_go/BasicBump.h
- src/advanced_node.cpp
- src/fsm_bump_go/AdvancedBump.cpp
- src/fsm_bump_go/Base.cpp
+ src/fsm_bump_go/BasicBump.cpp
  include/fsm_bump_go/Base.h
+ src/fsm_bump_go/Base.cpp
+ src/advanced_node.cpp
  include/fsm_bump_go/AdvancedBump.h
+ src/fsm_bump_go/AdvancedBump.cpp
+ src/pro_node.cpp
  include/fsm_bump_go/ProBump.h
  src/fsm_bump_go/ProBump.cpp
 )

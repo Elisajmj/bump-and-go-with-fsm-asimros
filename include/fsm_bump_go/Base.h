@@ -27,7 +27,7 @@ namespace fsm_bump_go
 class Base
 {
 public:
-  Base() {};
+  Base() {}
 
   void step();
 

@@ -63,7 +63,6 @@ Base::step()
           state_ = TURNING_LEFT;
           ROS_INFO("GOING_BACK -> TURNING_LEFT");
         }
-
       }
 
       break;
