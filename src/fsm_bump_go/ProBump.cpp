@@ -44,7 +44,7 @@ ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
     detected_ = true;
     side_ = RIGHT;
   }
-  else if (index_ > int(msg->ranges.size() - indexlim_))
+  else if (index_ > static_cast<int>(msg->ranges.size() - indexlim_))
   {
     ROS_INFO("he entrado girar derecha: [%s]", "he entrado");
     detected_ = true;
@@ -63,7 +63,7 @@ ProBump::detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
   while (pos < msg->ranges.size())
   {
     if (msg->ranges[pos] <= dist_) return pos;
-    if (pos == indexlim_) pos = int(msg->ranges.size() - indexlim_);
+    if (pos == indexlim_) pos = static_cast<int>(msg->ranges.size() - indexlim_);
     pos = pos + 1;
   }
   return -1;

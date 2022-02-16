@@ -31,7 +31,6 @@ public:
   AdvancedBump();
 
   void detectionCallBack(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-
 };
 
 }  // namespace fsm_bump_go

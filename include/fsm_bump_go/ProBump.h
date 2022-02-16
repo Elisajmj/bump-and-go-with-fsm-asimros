@@ -36,7 +36,6 @@ private:
   int index_;
   int indexlim_;
   float anglelim_ = 0.16;
-
 };
 
 }  // namespace fsm_bump_go
