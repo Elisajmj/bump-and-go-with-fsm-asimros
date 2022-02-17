@@ -48,7 +48,12 @@ MegaPro::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
         detected_ = true;
 
       }
-  } else
+  } else if (state_ == READ)
+  {
+    indexfar_=detectBetterOption(msg);
+    TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
+  }  
+   else
   {
     detected_ = false;
   }
@@ -80,8 +85,7 @@ MegaPro::step()
     case READ:
       cmd.linear.x = 0.0;
       cmd.angular.z = 0.0;
-      indexfar_=detectBetterOption(msg);
-      TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
+      
       detected_ts_ = ros::Time::now();
       state_=TURNING;
       ROS_INFO("READ -> TURNING");
