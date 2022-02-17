@@ -24,7 +24,7 @@ namespace fsm_bump_go
 {
 
 MegaPro::MegaPro()
-: n_("~"), 
+: n_("~")
 {
   linspeed_ = n_.param("linspeed", 1.0);
   angspeed_ = n_.param("angspeed", 0.5);
@@ -54,7 +54,7 @@ MegaPro::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
   }
 }
 
-void 
+void
 step()
 {
   geometry_msgs::Twist cmd;
@@ -71,7 +71,7 @@ step()
       cmd.angular.z = 0.0;
 
       if (detected_)
-      {        
+      {
         state_ = READ;
         ROS_INFO("GOING_FORWARD -> READ");
       }
@@ -83,8 +83,8 @@ step()
       indexfar_=detectBetterOption(msg);
       TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
       detected_ts_ = ros::Time::now();
-      state_=TURNING;  
-      ROS_INFO("READ -> TURNING");    
+      state_=TURNING;
+      ROS_INFO("READ -> TURNING");
 
       break;
     case TURNING:
@@ -104,7 +104,7 @@ step()
 int
 MegaPro::detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-  int pos = 0;detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
+  int pos = 0;
   while (pos < msg->ranges.size())
   {
     if (msg->ranges[pos] <= dist_) return pos;
