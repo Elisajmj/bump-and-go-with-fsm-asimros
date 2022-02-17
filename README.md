@@ -5,19 +5,24 @@ El proyecto consta de cuatro ejercicios diferentes:
 
 0. **Basic**: El Kobuki avanza hasta que el bumper detecte un objeto, una vez detectado, retroce y gira hacia la izquierda.
 1. **Advanced**: El Kobuki avanza hasta que el bumper detecte un objeto, una vez detectado, retroce y gira al lado contrario al que se ha detectado el objeto. 
-2. **Pro**: El Kobuki sigue la misma dinámica que el *Advanced*, pero en este caso hace uso del láser para detectar el objeto.
-3. **MegaPro**: El Kobuki sigue la misma dinámica que el *Pro*, sin embargo, en este caso busca ir hacia donde pueda avanzar más distancia.
+2. **Pro**: El Kobuki sigue la misma dinámica que *Advanced*, pero en este caso hace uso del láser para detectar el objeto.
 
-## Basics
-Tiene 3 estados:
+Las velocidades angular y lineal a la que se mueve el Kobuki son pasadas por parámetro.
+
+## BasicBump
+Implementa una máquina con tres estados:
+
 ##### GOING_FORWARD 
-Mientras se mantenga yendo hacia delante comprueba si se ha presionado el bumper, en caso de que no haya ocurrido sigue avanzando a una velocidad pasada por parámetros. Si por el contrario se ha chocado apunta el momento en que se ha dado cuenta y cambia su estado a *GOING_BACK*. 
+El Kobuki comienza en este estado, avanza hacia delante hasta que detecta con uno de sus bumpers detecta un obstáculo realizando los siguientes cambios:
+- Activa la variable *pressed_* a *true*.
+- Cambia el estado, *state_* pasa a ser *GOING_BACK*. 
+- Guarada el tiempo en el que se presionó un bumper en la variable *press_ts_*.
 
 ##### GOING_BACK
-Retrocede a la misma velocidad hasta que el tiempo desde que se presionó el bumper es superior al especificado en la constante "BACKING_TIME". Una vez agotado este tiempo pasa el estado a "TURNING", no sin antes apuntar el momento en que se ha acabado de retroceder.
+El Kobuki retroce mientras la diferencia entre el tiempo actual y el tiempo almacenado en *turn_ts_* es inferior a la constante *BACKING_TIME*. Una vez superado, el estado cambia a *TURNING* y se apunta en la variable *turn_ts_* el tiempo en el que empieza a girar.
 
 ##### TURNING 
-Para el movimiento linear y gira a una velocidad pasada hasta que el tiempo desde que pasó desde que dejó de retrocder supera el valor de la constante "TURNING_TIME". A continuación vuelve al estado "GOING_FORWARD".
+El Kobuki gira a la izquierda mientras la diferencia entre el tiempo actual y el tiempo almacenado en *turn_ts_* es inferior a *TURNING_TIME*. A continuación, vuelve al estado *GOING_FORWARD*.
 
 ## Base
 Tanto ***Advanced*** como ***ProBumper*** heredan de la clase *Base* la mayoría de sus variables y la máquina de estados, teniendo en este caso cuatro estados:
