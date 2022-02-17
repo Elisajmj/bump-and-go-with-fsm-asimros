@@ -18,26 +18,50 @@
 
 #include "ros/ros.h"
 
+#include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/Base.h"
 #include "sensor_msgs/LaserScan.h"
 
 namespace fsm_bump_go
 {
 
-class MegaPro : public Base
+class MegaPro
 {
 public:
   MegaPro();
   void detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg);
   int detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg);
-  void detectBetterOption(const sensor_msgs::LaserScan::ConstPtr& msg);
+  int detectBetterOption(const sensor_msgs::LaserScan::ConstPtr& msg);
+  void step();
 
 private:
+  ros::NodeHandle n_;
+
+  static const int GOING_FORWARD   = 0;
+  static const int READ = 1;
+  static const int TURNING = 2;
+
+  double TURNING_TIME;
+
+  int state_;
+  float linspeed_;
+  float angspeed_;
+
+  bool detected_;
+
+
   int dist_ = 1;
   int indexnear_;
   int indexfar_;
   int indexlim_;
+  float turnangle_;
   float anglelim_ = 0.16;
+
+  ros::Time detected_ts_;
+  ros::Time turn_ts_;
+
+  ros::Subscriber sub_;
+  ros::Publisher pub_vel_;
 
 };
 

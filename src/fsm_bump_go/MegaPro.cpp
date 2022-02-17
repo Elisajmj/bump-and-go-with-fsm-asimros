@@ -24,10 +24,12 @@ namespace fsm_bump_go
 {
 
 MegaPro::MegaPro()
+: n_("~"), 
 {
+  linspeed_ = n_.param("linspeed", 1.0);
+  angspeed_ = n_.param("angspeed", 0.5);
   state_ = GOING_FORWARD;
   detected_ = false;
-  side_ = LEFT;
   sub_ = n_.subscribe("/scan_filtered", 1, &MegaPro::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
@@ -36,26 +38,73 @@ void
 MegaPro::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   // Returns array index of an inrange detection
-  indexlim_ = anglelim_ / msg->angle_increment;
-  indexnear_ = detectInRange(msg);
-  indexfar_ = detectBetterOption(msg);
-
-  if (indexnear_ != -1)
+  if (state_ == GOING_FORWARD)
   {
-    detected_ = true;
-    side_ = LEFT;
-    TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
+    indexlim_ = anglelim_ / msg->angle_increment;
+    indexnear_ = detectInRange(msg);
 
+    if (indexnear_ != -1)
+      {
+        detected_ = true;
+
+      }
   } else
   {
     detected_ = false;
   }
 }
 
+void 
+step()
+{
+  geometry_msgs::Twist cmd;
+
+  cmd.linear.y = 0.0;
+  cmd.linear.z = 0.0;
+  cmd.angular.x = 0.0;
+  cmd.angular.y = 0.0;
+
+  switch (state_)
+  {
+    case GOING_FORWARD:
+      cmd.linear.x = linspeed_;
+      cmd.angular.z = 0.0;
+
+      if (detected_)
+      {        
+        state_ = READ;
+        ROS_INFO("GOING_FORWARD -> READ");
+      }
+
+      break;
+    case READ:
+      cmd.linear.x = 0.0;
+      cmd.angular.z = 0.0;
+      indexfar_=detectBetterOption(msg);
+      TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
+      detected_ts_ = ros::Time::now();
+      state_=TURNING;  
+      ROS_INFO("READ -> TURNING");    
+
+      break;
+    case TURNING:
+      cmd.linear.x = 0.0;
+      cmd.angular.z = angspeed_;
+
+      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      {
+        state_ = GOING_FORWARD;
+        ROS_INFO("TURNING -> GOING_FORWARD");
+      }
+      break;
+    }
+
+}
+
 int
 MegaPro::detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-  int pos = 0;
+  int pos = 0;detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
   while (pos < msg->ranges.size())
   {
     if (msg->ranges[pos] <= dist_) return pos;
