@@ -80,7 +80,7 @@ BasicBump::step()
       cmd.linear.x = 0.0;
       cmd.angular.z = angspeed_;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now() - turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING -> GOING_FORWARD");

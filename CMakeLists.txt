@@ -3,8 +3,6 @@ project(fsm_bump_go)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_BUILD_TYPE Debug)
-
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
@@ -48,3 +46,11 @@ roslint_cpp(
  include/fsm_bump_go/ProBump.h
  src/fsm_bump_go/ProBump.cpp
 )
+
+roslint_cpp()
+
+catkin_add_gtest(our_tests tests/our_tests.cpp)
+add_dependencies(our_tests ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+if(TARGET our_tests)
+  target_link_libraries(our_tests ${catkin_LIBRARIES} ${PROJECT_NAME})
+endif()

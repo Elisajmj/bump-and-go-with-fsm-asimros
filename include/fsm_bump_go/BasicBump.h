@@ -32,10 +32,10 @@ public:
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step();
 
-private:
+protected:
   ros::NodeHandle n_;
 
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING = 2;
 
