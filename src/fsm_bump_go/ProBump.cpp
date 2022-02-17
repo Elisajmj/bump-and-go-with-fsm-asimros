@@ -36,19 +36,23 @@ void
 ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   // Returns array index of an inrange detection
-  index_ = detectInRange(msg);
-  indexlim_ = anglelim_ / msg->angle_increment;
+  if(state_ == GOING_FORWARD)
+  {
+    index_ = detectInRange(msg);
+    indexlim_ = anglelim_ / msg->angle_increment;
 
-  if (index_ < indexlim_ && index_ >= 0)
-  {
-    detected_ = true;
-    side_ = RIGHT;
+    if (index_ < indexlim_ && index_ >= 0)
+    {
+      detected_ = true;
+      side_ = RIGHT;
+    }
+    else if (index_ > static_cast<int>(msg->ranges.size() - indexlim_))
+    {
+      detected_ = true;
+      side_ = LEFT;
+    }
   }
-  else if (index_ > static_cast<int>(msg->ranges.size() - indexlim_))
-  {
-    detected_ = true;
-    side_ = LEFT;
-  }
+
   else
   {
     detected_ = false;
