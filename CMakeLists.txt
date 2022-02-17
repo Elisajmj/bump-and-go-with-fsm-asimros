@@ -50,7 +50,7 @@ roslint_cpp(
  src/pro_node.cpp
  include/fsm_bump_go/ProBump.h
  src/fsm_bump_go/ProBump.cpp
+ src/mega_node.cpp
  include/fsm_bump_go/MegaPro.h
  src/fsm_bump_go/MegaPro.cpp
- src/mega_node.cpp
 )
