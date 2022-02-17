@@ -28,6 +28,8 @@ ProBump::ProBump()
   state_ = GOING_FORWARD;
   detected_ = false;
   side_ = LEFT;
+  dist_ = n_.param("dist", 1.0);
+  anglelim_ = static_cast<float>(atan2(0.17, dist_));
   sub_ = n_.subscribe("/scan_filtered", 1, &ProBump::detectionCallBack, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }

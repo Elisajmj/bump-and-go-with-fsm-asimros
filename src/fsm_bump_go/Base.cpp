@@ -54,7 +54,7 @@ Base::step()
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -linspeed_/2;
+      cmd.linear.x = -linspeed_;
       cmd.angular.z = 0.0;
 
       if ((ros::Time::now() - detected_ts_).toSec() > BACKING_TIME )
