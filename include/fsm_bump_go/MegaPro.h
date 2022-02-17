@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_MegaPro_H
-#define FSM_BUMP_GO_MegaPro_H
+#ifndef FSM_BUMP_GO_MEGAPRO_H
+#define FSM_BUMP_GO_MEGAPRO_H
 
 #include "ros/ros.h"
 
@@ -67,4 +67,4 @@ private:
 
 }  // namespace fsm_bump_go
 
-#endif  // FSM_BUMP_GO_MegaPro_H
+#endif  // FSM_BUMP_GO_MEGAPRO_H
