@@ -41,25 +41,27 @@ Para el movimiento linear y gira en sentido horario a una velocidad pasada hasta
 ### Advanced
 Hereda todas sus variables de ***Base*** y únicamente comprueba en su callback cuando ha entrado en contacto con un obstáculo y cuál de sus *bumpers* ha sido el que se ha presionado para actualizar la variable ***side_***.
 
-### ProBumper
-A parte de las variables heredadas contiene variables para saber a qué distancia frenar y qué ángulos tener en cuenta para decidir el lado hacia el que girar.
-Además del callback tiene una función "detectInRange" que determina si hay un obstáculo y el "ángulo" en que lo detecta. Además, evita que se comprueben los datos del láser de detrás del robot.
+## ProBumper
+Al igual que en el ejercicio anterior, *advanced*, hereda la máquina de estados diseñada en la clase padre *base.h*, la cuál consta de 4 estados:
 
-El callback, si el estado es "GOING_FORWARD", llama a "detectInRange" y actualiza la variable size según el ángulo, también pone ***detected_ a true***.
-En caso de que no encuentre nada a la distancia configurada pone ***detected_*** a false.
-Si no está yendo hacia alante se salta todo eso, ya que el láser sigue mandando información mientras retrocede o gira, y así evita que se procesen datos inecesarios.
+#### GOING FORWARD
 
-## MegaPro
-El objetivo de este programa es que escoga la dirección hacia la que ir,en su callback si va hacia alante comprueba si hay obstáculos igual que el ***ProBumper***, por otro lado, si está leyendo decide el mejor camino con la función "detectBetterOption" y actualiza la variable ***indexfar_*** para saber hacia que ángulo ir.
-Tiene solo tres estados:
+Realiza la misma acción que en el *advanced*, con la diferencia de que el obstáculo se detecta utilizando el láser. Cuando dicho objeto se encuentre delante del kobuki, a una distancia inferior a la pasada por parámetro, se activa la variable *detected_* a true, cambiando al estado *GOING_BACK*.
 
-##### GOING_FORWARD
-Que funciona igual que en el caso del ***ProBumper***.
+Este proceso de detectar el obstáculo, se realiza en la función *detectInRange(msg)*, la cual devuelve un entero con la posición del array en la que se encuentra dicho obstáculo, guardándola en *index_*.
 
-##### READING
-Apunta el momento en que ha dejado de avanzar ...
+El rango en el que tiene que analizar si hay un obstáculo o no, se ha calculado con la arcotangente de la división del radio entre la distancia a la que queremos detectarlo: arctg(radio/distancia). Este número sumado al angle_min y restado al angle_max, nos da el rango de medición. 
 
-##### TURNING
+Una vez se ha guardado *index_*, se comprueba si el índice pertenece a la primera parte del array (se encuentra a la izquierda), o a la parte final (situada a la derecha), guardando en la variable *side_ RIGHT* o *LEFT*, la dirección por la que esquiva el obstáculo.
+
+#### GOING_BACK
+
+Se realiza igual que en el ejercicio *advanced*, el kobuki retrocede durante un tiempo determinado, y posteriormente cambia de estado a *TURNING_LEFT* o *TURNING_RIGHT*, dependiendo del valor de *side_*.
+
+#### TURNING_RIGHT Y TURNING_LEFT
+
+El kobuki gira hacia el lado correspondiente durante un tiempo determinado, de la misma forma que en advanced
+
 
 ## Members
 
