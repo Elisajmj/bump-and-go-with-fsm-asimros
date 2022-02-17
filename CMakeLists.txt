@@ -45,9 +45,8 @@ roslint_cpp(
  src/pro_node.cpp
  include/fsm_bump_go/ProBump.h
  src/fsm_bump_go/ProBump.cpp
+ tests/our_tests.cpp
 )
-
-roslint_cpp()
 
 catkin_add_gtest(our_tests tests/our_tests.cpp)
 add_dependencies(our_tests ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
