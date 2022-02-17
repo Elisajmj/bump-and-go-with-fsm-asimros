@@ -53,6 +53,10 @@ ProBump::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
       detected_ = true;
       side_ = LEFT;
     }
+    else
+    {
+      detected_ = false;
+    }
   }
 
   else
