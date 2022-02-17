@@ -119,7 +119,7 @@ MegaPro::detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg)
 }
 
 int
-detectBetterOption(const sensor_msgs::LaserScan::ConstPtr& msg)
+MegaPro::detectBetterOption(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   int farther=0;
   for (int pos=0; pos < msg->ranges.size(); pos++)
