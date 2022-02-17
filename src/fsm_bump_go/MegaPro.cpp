@@ -55,7 +55,7 @@ MegaPro::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
 }
 
 void
-step()
+MegaPro::step()
 {
   geometry_msgs::Twist cmd;
 
