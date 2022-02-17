@@ -44,16 +44,23 @@ MegaPro::detectionCallBack(const sensor_msgs::LaserScan::ConstPtr& msg)
     indexnear_ = detectInRange(msg);
 
     if (indexnear_ != -1)
-      {
-        detected_ = true;
-
-      }
-  } else if (state_ == READ)
+    {
+      detected_ = true;
+    }
+    else
+    {
+      detected_ = false;
+    }
+  }
+  else if (state_ == READ)
   {
-    indexfar_=detectBetterOption(msg);
-    TURNING_TIME = (indexfar_ * msg->angle_increment) / 0.5;
-  }  
-   else
+    indexfar_= detectBetterOption(msg);
+    ROS_INFO("%d", indexfar_);
+
+    TURNING_TIME = float((indexfar_ * msg->angle_increment) / angspeed_);
+    state_ = TURNING;
+  }
+  else
   {
     detected_ = false;
   }
@@ -72,6 +79,7 @@ MegaPro::step()
   switch (state_)
   {
     case GOING_FORWARD:
+
       cmd.linear.x = linspeed_;
       cmd.angular.z = 0.0;
 
@@ -85,15 +93,16 @@ MegaPro::step()
     case READ:
       cmd.linear.x = 0.0;
       cmd.angular.z = 0.0;
-      
-      detected_ts_ = ros::Time::now();
-      state_=TURNING;
+
+      turn_ts_ = ros::Time::now();
       ROS_INFO("READ -> TURNING");
 
       break;
     case TURNING:
       cmd.linear.x = 0.0;
       cmd.angular.z = angspeed_;
+      ROS_INFO("%f", angspeed_);
+
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -102,6 +111,8 @@ MegaPro::step()
       }
       break;
     }
+
+    pub_vel_.publish(cmd);
 
 }
 
@@ -122,10 +133,11 @@ int
 MegaPro::detectBetterOption(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   int farther=0;
-  for (int pos=0; pos < msg->ranges.size(); pos++)
+  for (int pos=40; pos < int(msg->ranges.size()) - 40; pos++)
   {
-    if (msg->ranges[pos] > msg->ranges[farther]) farther=pos;
+    if (msg->ranges[pos] > msg->ranges[farther] && msg->ranges[pos] != 100000) farther=pos;
   }
+  ROS_INFO("La distancia al lejano: [%f]", msg->ranges[farther]);
   return farther;
 }
 
