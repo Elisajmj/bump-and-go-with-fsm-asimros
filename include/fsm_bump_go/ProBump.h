@@ -32,10 +32,10 @@ public:
   int detectInRange(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 private:
-  int dist_ = 1;
+  float dist_;
   int index_;
   int indexlim_;
-  float anglelim_ = static_cast<float>(atan2(0.17, dist_));  // radio kobuki = 0.17
+  float anglelim_;  // radio kobuki = 0.17
 };
 
 }  // namespace fsm_bump_go
