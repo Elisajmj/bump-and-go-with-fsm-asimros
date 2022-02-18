@@ -40,7 +40,7 @@ Mientras se mantenga yendo hacia delante comprueba si se ha detectado un obstác
 
 ##### GOING_BACK
 
-Retrocede a la misma velocidad hasta que el tiempo desde que se detectó un obstáculo es superior al especificado en la constante "BACKING_TIME". Una vez agotado este tiempo apunta el momento en que deja de retroceder y comprueba la variable ***side_***, actualizada por los callbacks de ***Advanced** y ***ProBumper***. Si ha detectado el objeto en el lado izquierdo pasa al estado "TURNING_RIGHT", en cualquier otro caso pasa a "TURNING_LEFT".
+Retrocede a la misma velocidad hasta que el tiempo desde que se detectó un obstáculo es superior al especificado en la constante "BACKING_TIME". Una vez agotado este tiempo apunta el momento en que deja de retroceder y comprueba la variable ***side_***, actualizada por los callbacks de ***Advanced*** y ***ProBumper***. Si ha detectado el objeto en el lado izquierdo pasa al estado "TURNING_RIGHT", en cualquier otro caso pasa a "TURNING_LEFT".
 
 ##### TURNING_LEFT
 
